@@ -1,12 +1,9 @@
 plugins {
     java
-    id("org.springframework.boot") version "3.5.6"
+    id("org.springframework.boot") version "3.5.2"
     id("io.spring.dependency-management") version "1.1.7"
+    id("com.google.devtools.ksp") version "1.8.10-1.0.9"
 }
-
-group = "ru.solomka"
-version = "0.0.1-SNAPSHOT"
-description = "mg-profile-service"
 
 java {
     toolchain {
@@ -14,16 +11,70 @@ java {
     }
 }
 
-repositories {
-    mavenCentral()
+buildscript {
+    repositories { gradlePluginPortal() }
+    dependencies {
+        classpath("org.springframework.boot:org.springframework.boot.gradle.plugin:3.5.2")
+    }
 }
 
-dependencies {
-    implementation("org.springframework.boot:spring-boot-starter")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+allprojects {
+    repositories {
+        mavenCentral()
+    }
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
+configurations {
+    compileOnly {
+        extendsFrom(configurations.annotationProcessor.get())
+    }
+}
+
+springBoot {
+    mainClass = "ru.solomka.profile.spring.MgProfileService"
+}
+
+extra["springCloudVersion"] = "2024.0.0"
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+    }
+}
+
+subprojects {
+    apply(plugin = "java-library")
+    apply(plugin = "org.springframework.boot")
+    apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "com.google.devtools.ksp")
+
+    group = "ru.solomka"
+
+    springBoot {
+        mainClass = "ru.solomka.profile.spring.MgProfileService"
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        annotationProcessor(rootProject.libs.projectlombok.lombok)
+
+        implementation(rootProject.libs.jetbrains.annotations)
+        implementation(rootProject.libs.projectlombok.lombok)
+    }
+}
+
+
+tasks.withType<Jar> {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes["Main-Class"] = "ru.solomka.profile.spring.MgProfileService"
+    }
 }

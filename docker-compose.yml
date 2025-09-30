@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+  mg-profile-service:
+    image: "mg-profile-service:latest"
+    hostname: "mg-profile-service"
+    env_file: .env
+    build:
+      dockerfile: Dockerfile
+    environment:
+      - spring.jpa.hibernate.ddl-auto=update
+      - spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+      - spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+    ports:
+      - '8082:8082'
+    networks:
+      - mgi-backend-wrapper-network
+    depends_on:
+      - postgres
+      - swagger-ui
+
+  postgres:
+    image: postgres:14.1-alpine
+    hostname: postgres-mg-profile-service
+    restart: always
+    environment:
+      POSTGRES_URL: ${DATASOURCE_URL}
+      POSTGRES_DB: ${DATASOURCE_DB}
+      POSTGRES_USER: ${DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${DATASOURCE_PASSWORD}
+    ports:
+      - '5433:5433'
+    networks:
+      - mgi-backend-wrapper-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8078:8078"
+    environment:
+      SWAGGER_JSON: /data/swagger.yml
+    networks:
+      - mgi-backend-wrapper-network
+    volumes:
+      - ./data:/data
+
+networks:
+  mgi-backend-wrapper-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
