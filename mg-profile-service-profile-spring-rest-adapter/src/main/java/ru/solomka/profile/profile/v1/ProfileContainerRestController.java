@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/v1/api/profile")
+@RequestMapping("/v1/api/profile/container/search")
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class ProfileContainerRestController {
@@ -23,38 +23,34 @@ public class ProfileContainerRestController {
     @NonNull CommandHandler<GetProfileByIdQuery, ProfileEntity> getProfileByIdQueryHandler;
     @NonNull CommandHandler<GetProfilesByFirstNameQuery, List<ProfileEntity>> getProfilesByFirstNameQueryHandler;
     @NonNull CommandHandler<GetProfilesByLastNameQuery, List<ProfileEntity>> getProfilesByLastNameQueryHandler;
-    @NonNull CommandHandler<GetProfilesByFirstNameAndLastNameQuery, List<ProfileEntity>> getProfilesByFirstNameAndLastNameQueryHandler;
 
-    @GetMapping(produces = "application/json")
-    public ResponseEntity<ProfileEntity> getProfileById(@RequestParam("profileId") UUID profileId) {
-        GetProfileByIdQuery getProfileByIdQuery = new GetProfileByIdQuery(profileId);
-        return ResponseEntity.ok(getProfileByIdQueryHandler.handle(getProfileByIdQuery));
+    @GetMapping(value = "/spec", produces = "application/json")
+    public ResponseEntity<ProfileEntity> getProfileBySearchParam(@RequestParam("searchBy") String searchBy, @RequestParam("value") Object value) {
+        switch (searchBy) {
+            case "id" -> {
+                GetProfileByIdQuery getProfileByIdQuery = new GetProfileByIdQuery(UUID.fromString(String.valueOf(value)));
+                return ResponseEntity.ok(getProfileByIdQueryHandler.handle(getProfileByIdQuery));
+            }
+            case "profileName" -> {
+                GetProfileByProfileNameQuery getProfileByProfileNameQuery = new GetProfileByProfileNameQuery(String.valueOf(value));
+                return ResponseEntity.ok(getProfileByProfileNameQueryHandler.handle(getProfileByProfileNameQuery));
+            }
+            default -> throw new IllegalArgumentException("Invalid search parameter");
+        }
     }
 
-    @GetMapping(produces = "application/json")
-    public ResponseEntity<ProfileEntity> getProfileByName(@RequestParam("profileName") String profileName) {
-        GetProfileByProfileNameQuery getProfileByProfileNameQuery = new GetProfileByProfileNameQuery(profileName);
-        return ResponseEntity.ok(getProfileByProfileNameQueryHandler.handle(getProfileByProfileNameQuery));
+    @GetMapping(value = "/multiple", produces = "application/json")
+    public ResponseEntity<List<ProfileEntity>> getProfilesBySearchParam(@RequestParam("searchBy") String searchBy,  @RequestParam("value") Object value) {
+        switch (searchBy) {
+            case "firstName" -> {
+                GetProfilesByFirstNameQuery getProfilesByFirstNameQuery = new GetProfilesByFirstNameQuery(String.valueOf(value));
+                return ResponseEntity.ok(getProfilesByFirstNameQueryHandler.handle(getProfilesByFirstNameQuery));
+            }
+            case "lastName" -> {
+                GetProfilesByLastNameQuery getProfilesByLastNameQuery = new GetProfilesByLastNameQuery(String.valueOf(value));
+                return ResponseEntity.ok(getProfilesByLastNameQueryHandler.handle(getProfilesByLastNameQuery));
+            }
+            default -> throw new IllegalArgumentException("Invalid search parameter");
+        }
     }
-
-    @GetMapping(produces = "application/json")
-    public ResponseEntity<List<ProfileEntity>> getProfilesByFirstName(@RequestParam("firstName") String firstName) {
-        GetProfilesByFirstNameQuery getProfilesByFirstNameQuery = new GetProfilesByFirstNameQuery(firstName);
-        return ResponseEntity.ok(getProfilesByFirstNameQueryHandler.handle(getProfilesByFirstNameQuery));
-    }
-
-    @GetMapping(produces = "application/json")
-    public ResponseEntity<List<ProfileEntity>> getProfilesByLastName(@RequestParam("lastName") String lastName) {
-        GetProfilesByLastNameQuery getProfilesByLastNameQuery = new GetProfilesByLastNameQuery(lastName);
-        return ResponseEntity.ok(getProfilesByLastNameQueryHandler.handle(getProfilesByLastNameQuery));
-    }
-
-    @GetMapping(produces = "application/json")
-    public ResponseEntity<List<ProfileEntity>> getProfilesByLastName(@RequestParam("firstName") String firstName,
-                                                                     @RequestParam("lastName") String lastName) {
-        GetProfilesByFirstNameAndLastNameQuery getProfilesByFirstNameAndLastNameQuery = new GetProfilesByFirstNameAndLastNameQuery(firstName, lastName);
-        return ResponseEntity.ok(getProfilesByFirstNameAndLastNameQueryHandler.handle(getProfilesByFirstNameAndLastNameQuery));
-    }
-
-
 }
