@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CrudProfileRepository extends BaseCrudRepository<JpaProfileEntity> {
-    Optional<ProfileEntity> findProfileByProfileName(@NonNull String profileName);
+    Optional<JpaProfileEntity> findProfileByProfileName(@NonNull String profileName);
 
-    List<ProfileEntity> findProfilesByFirstName(@NonNull String firstName);
-    List<ProfileEntity> findProfilesByLastName(@NonNull String lastName);
-    List<ProfileEntity> findProfilesByFirstNameAndLastName(@NonNull String firstName, @NonNull String lastName);
+    List<JpaProfileEntity> findProfilesByFirstName(@NonNull String firstName);
+    List<JpaProfileEntity> findProfilesByLastName(@NonNull String lastName);
+    List<JpaProfileEntity> findProfilesByFirstNameAndLastName(@NonNull String firstName, @NonNull String lastName);
 }
