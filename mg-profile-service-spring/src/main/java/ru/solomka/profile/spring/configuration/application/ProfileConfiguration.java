@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import ru.solomka.profile.common.mapper.Mapper;
 import ru.solomka.profile.profile.*;
+import ru.solomka.profile.profile.cqrs.query.handler.*;
 
 @Configuration
 @EntityScan(basePackageClasses = JpaProfileEntity.class)
@@ -27,5 +28,30 @@ public class ProfileConfiguration {
     @Bean
     JpaProfileEntityProfileEntityMapper jpaProfileEntityProfileEntityMapper() {
         return new JpaProfileEntityProfileEntityMapper();
+    }
+
+    @Bean
+    GetProfilesByFirstNameAndLastNameQueryHandler getProfilesByFirstNameAndLastNameQuery(@NonNull ProfileService profileService) {
+        return new GetProfilesByFirstNameAndLastNameQueryHandler(profileService);
+    }
+
+    @Bean
+    GetProfilesByFirstNameQueryHandler getProfilesByFirstNameQueryHandler(@NonNull ProfileService profileService) {
+        return new GetProfilesByFirstNameQueryHandler(profileService);
+    }
+
+    @Bean
+    GetProfilesByLastNameQueryHandler getProfilesByLastNameQueryHandler(@NonNull ProfileService profileService) {
+        return new GetProfilesByLastNameQueryHandler(profileService);
+    }
+
+    @Bean
+    GetProfileByProfileNameQueryHandler getProfileByProfileNameQueryHandler(@NonNull ProfileService profileService) {
+        return new GetProfileByProfileNameQueryHandler(profileService);
+    }
+
+    @Bean
+    GetProfileByIdQueryHandler getProfileByIdQueryHandler(@NonNull ProfileService profileService) {
+        return new GetProfileByIdQueryHandler(profileService);
     }
 }
