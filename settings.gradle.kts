@@ -13,10 +13,10 @@ listOf(
 
     "mg-profile-service-profile",
     "mg-profile-service-profile-spring-jpa-adapter",
+    "mg-profile-service-profile-spring-rest-adapter",
 
     "mg-profile-service-user-snapshot",
     "mg-profile-service-user-snapshot-spring-jpa-adapter"
 ).forEach {
     include(it)
 }
-include("mg-profile-service-profile-spring-rest-adapter")
