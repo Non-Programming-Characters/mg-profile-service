@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.solomka.profile.profile.ProfileEntity;
 
 @RestController
-@RequestMapping("/v1/api/profile")
+@RequestMapping("/v1/api/profile/editor")
 public class ProfileEditorRestController {
 
-    @PostMapping(produces = "applicaiton/json")
+    @PostMapping(value = "/save", produces = "applicaiton/json")
     public ResponseEntity<ProfileEntity> saveProfile() {
         return ResponseEntity.ok(ProfileEntity.builder().build());
     }
