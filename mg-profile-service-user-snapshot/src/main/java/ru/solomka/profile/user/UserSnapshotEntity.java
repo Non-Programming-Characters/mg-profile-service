@@ -18,6 +18,8 @@ public class UserSnapshotEntity implements Entity {
 
     @NonNull UUID id;
 
+    @NonNull String login;
+
     @NonNull String email;
 
     @NonNull Instant createdAt;

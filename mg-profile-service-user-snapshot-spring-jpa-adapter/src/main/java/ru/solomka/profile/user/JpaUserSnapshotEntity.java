@@ -18,11 +18,14 @@ import java.util.UUID;
 public class JpaUserSnapshotEntity {
 
     @Id
-    UUID id;
+    @NonNull UUID id;
+
+    @Column(name = "login", nullable = false)
+    @NonNull String login;
 
     @Column(name = "email", nullable = false)
-    String email;
+    @NonNull String email;
 
-    @Column(name = "createdAt", nullable = false)
-    Instant createdAt;
+    @Column(name = "created_at", nullable = false)
+    @NonNull Instant createdAt;
 }
