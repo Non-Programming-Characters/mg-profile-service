@@ -8,6 +8,8 @@ dependencies {
     implementation(rootProject.libs.springframework.spring.boot.starter.validation)
     implementation(rootProject.libs.springframework.spring.boot.starter.test)
 
+    implementation(rootProject.libs.springframework.spring.boot.eureka.client)
+
     implementation(rootProject.libs.springframework.spring.boot.kafka)
 
     implementation(libs.springdoc.springdoc.openapi.starter.webmvc.ui)
@@ -25,17 +27,18 @@ dependencies {
         "mg-profile-service-common",
         "mg-profile-service-common-jpa",
 
-        "mg-profile-service-principal",
-        "mg-profile-service-principal-spring-security-adapter",
-
-        "mg-profile-service-kafka-adapter",
-
         "mg-profile-service-profile",
         "mg-profile-service-profile-spring-jpa-adapter",
         "mg-profile-service-profile-spring-rest-adapter",
+        "mg-profile-service-profile-spring-kafka-adapter",
 
         "mg-profile-service-user-snapshot",
-        "mg-profile-service-user-snapshot-spring-jpa-adapter"
+        "mg-profile-service-user-snapshot-spring-jpa-adapter",
+        "mg-profile-service-user-snapshot-spring-kafka-adapter",
+
+        "mg-profile-service-friendship-relation",
+        "mg-profile-service-friendship-relation-spring-jpa-adapter",
+        "mg-profile-service-friendship-relation-spring-rest-adapter"
     ).forEach {
         implementation(project(":$it"))
     }

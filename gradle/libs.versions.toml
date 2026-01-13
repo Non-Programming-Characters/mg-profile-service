@@ -22,6 +22,12 @@ springframework-spring-boot-starter-cache = { module = 'org.springframework.boot
 springframework-spring-boot-starter = { module = 'org.springframework.boot:spring-boot-starter' }
 springframework-spring-boot-configuration-processor = { module = 'org.springframework.boot:spring-boot-configuration-processor' }
 springframework-spring-boot-kafka = { module = 'org.springframework.kafka:spring-kafka' }
+springframework-spring-boot-eureka-client = { module = 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client', version='3.1.4' }
+
+jackson-core-annotations = { module = 'com.fasterxml.jackson.core:jackson-annotations'}
+jackson-core-core = { module = "com.fasterxml.jackson.core:jackson-core" }
+jackson-core-databind = { module = "com.fasterxml.jackson.core:jackson-databind" }
+jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310" }
 
 #Database
 postgresql-postgresql = { module = 'org.postgresql:postgresql' }

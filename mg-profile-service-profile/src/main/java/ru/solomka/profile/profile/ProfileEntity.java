@@ -16,17 +16,17 @@ import java.util.UUID;
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
 public class ProfileEntity implements Entity {
 
-    @NonNull UUID id;
+    UUID id;
 
-    String profileName;
+    @NonNull String userTag;
 
-    String firstName;
+    @NonNull String firstName;
 
     String lastName;
 
-    String bio;
+    @NonNull String email;
 
-    Instant birthDate;
+    @NonNull Instant lastEditedAt;
 
-    @NonNull Instant createdAt;
+    Instant createdAt;
 }

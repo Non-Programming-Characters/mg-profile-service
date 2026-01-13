@@ -1,3 +1,7 @@
+service:
+  profile-properties:
+    profile-edit-cooldown: ${PROFILE_CHANGES_COOLDOWN}
+
 logging:
   level:
     org.springframework.cloud.gateway: DEBUG
@@ -8,10 +12,24 @@ server:
 
 spring:
   kafka:
+    bootstrap-servers: event-router-kafka:29092
+    consumer:
+      group-id: mg-profile-service-kafka-consumer
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: earliest
+      properties:
+        spring.json.trusted.packages: "*"
+        reconnect.backoff.ms: 1000
+        reconnect.backoff.max.ms: 10000
+        session.timeout.ms: 45000
+        heartbeat.interval.ms: 15000
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-    bootstrap-servers: kafka:29092
+      properties:
+        retries: 2147483647
+        retry.backoff.ms: 10000
 
   application:
     name: ${APPLICATION_PROJECT_NAME}
@@ -34,9 +52,19 @@ spring:
     properties:
       hibernate.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
 
+eureka:
+  instance:
+    hostname: mg-profile-service
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://mg-gateway-server-service:8761/eureka/
+
 springdoc:
   api-docs:
     enabled: true
+    path: /profile/public/v3/api-docs
   swagger-ui:
-    enabled: true
-    path: /profile-mg/v3/api-docs/index.html
+    enabled: false

@@ -7,11 +7,11 @@ public class JpaProfileEntityProfileEntityMapper implements Mapper<JpaProfileEnt
     public JpaProfileEntity mapToInfrastructure(ProfileEntity domainEntity) {
         return JpaProfileEntity.builder()
                 .id(domainEntity.getId())
-                .profileName(domainEntity.getProfileName())
+                .userTag(domainEntity.getUserTag())
                 .firstName(domainEntity.getFirstName())
                 .lastName(domainEntity.getLastName())
-                .bio(domainEntity.getBio())
-                .birthDate(domainEntity.getBirthDate())
+                .email(domainEntity.getEmail())
+                .lastEditedAt(domainEntity.getLastEditedAt())
                 .createdAt(domainEntity.getCreatedAt())
                 .build();
     }
@@ -20,11 +20,11 @@ public class JpaProfileEntityProfileEntityMapper implements Mapper<JpaProfileEnt
     public ProfileEntity mapToDomain(JpaProfileEntity infrastructureEntity) {
         return ProfileEntity.builder()
                 .id(infrastructureEntity.getId())
-                .profileName(infrastructureEntity.getProfileName())
+                .userTag(infrastructureEntity.getUserTag())
                 .firstName(infrastructureEntity.getFirstName())
                 .lastName(infrastructureEntity.getLastName())
-                .bio(infrastructureEntity.getBio())
-                .birthDate(infrastructureEntity.getBirthDate())
+                .email(infrastructureEntity.getEmail())
+                .lastEditedAt(infrastructureEntity.getLastEditedAt())
                 .createdAt(infrastructureEntity.getCreatedAt())
                 .build();
     }

@@ -19,24 +19,24 @@ import java.util.UUID;
 public class JpaProfileEntity {
 
     @Id
+    @Column(name = "id", nullable = false)
     @NonNull UUID id;
 
-    @Column(name = "profile_name")
-    String profileName;
+    @Column(name = "user_tag", length = 30, nullable = false)
+    @NonNull String userTag;
 
-    @Column(name = "first_name")
-    String firstName;
+    @Column(name = "first_name", nullable = false)
+    @NonNull String firstName;
 
     @Column(name = "last_name")
     String lastName;
 
-    @Column(name = "bio")
-    String bio;
+    @Column(name = "email")
+    @NonNull String email;
 
-    @Column(name = "birthdate")
-    Instant birthDate;
+    @Column(name = "last_edited_at", nullable = false)
+    @NonNull Instant lastEditedAt;
 
     @Column(name = "created_at")
     @NonNull Instant createdAt;
-
 }

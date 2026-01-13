@@ -1,3 +1,3 @@
 dependencies {
-    implementation(project(":mg-profile-service-principal"))
+    implementation(rootProject.libs.jackson.core.databind)
 }

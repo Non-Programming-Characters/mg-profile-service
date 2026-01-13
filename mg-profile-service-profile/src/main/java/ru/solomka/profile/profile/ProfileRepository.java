@@ -4,11 +4,11 @@ import lombok.NonNull;
 import ru.solomka.profile.common.EntityRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProfileRepository extends EntityRepository<ProfileEntity> {
-    ProfileEntity getProfileByProfileName(@NonNull String profileName);
+    Optional<ProfileEntity> findProfileByUserTag(String userTag);
+    List<ProfileEntity> getProfilesByContainsFirstOrLastName(@NonNull String firstName, String lastName);
 
-    List<ProfileEntity> getProfilesByFirstName(@NonNull String firstName);
-    List<ProfileEntity> getProfilesByLastName(@NonNull String lastName);
-    List<ProfileEntity> getProfilesByFirstNameAndLastName(@NonNull String firstName, @NonNull String lastName);
+    boolean existsByUserTag(String userTag);
 }
