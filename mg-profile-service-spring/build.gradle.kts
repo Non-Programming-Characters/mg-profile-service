@@ -8,6 +8,9 @@ dependencies {
     implementation(rootProject.libs.springframework.spring.boot.starter.validation)
     implementation(rootProject.libs.springframework.spring.boot.starter.test)
 
+    implementation(rootProject.libs.flywaydb.flyway.core)
+    implementation(rootProject.libs.flywaydb.flyway.database.postgresql)
+
     implementation(rootProject.libs.springframework.spring.boot.eureka.client)
 
     implementation(rootProject.libs.springframework.spring.boot.kafka)

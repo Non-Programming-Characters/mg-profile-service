@@ -11,6 +11,15 @@ server:
   port: ${APPLICATION_PORT}
 
 spring:
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:migration
+    encoding: UTF-8
+    validate-on-migrate: true
+    url: ${DATASOURCE_URL}
+    user: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
   kafka:
     bootstrap-servers: event-router-kafka:29092
     consumer:
